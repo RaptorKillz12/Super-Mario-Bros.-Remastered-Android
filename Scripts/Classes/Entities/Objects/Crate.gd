@@ -5,6 +5,7 @@ extends CharacterBody2D
 
 const CRATE_DESTRUCTION_PARTICLES = preload("uid://cq1cyk2gwwjis")
 
+signal destroyed
 
 func _physics_process(delta: float) -> void:
 	var last_velocity = velocity
@@ -44,6 +45,7 @@ func splash() -> void:
 	velocity.y = clamp(velocity.y / 1.25, 20, INF)
 
 func destroy(dispense_item := true) -> void:
+	destroyed.emit()
 	Global.score += 50
 	AudioManager.play_sfx("block_break", global_position)
 	summon_particles()
