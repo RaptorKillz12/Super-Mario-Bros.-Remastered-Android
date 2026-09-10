@@ -15,6 +15,7 @@ func _ready() -> void:
 		## probably a godot bug :thumbsup:
 		melted_node.get_node("VisibleOnScreenEnabler2D").free()
 	melted_node.global_position = Vector2(-512, 512)
+	melted_node.set_meta("IsMelted", "true")
 	add_sibling.call_deferred(melted_node)
 
 func fireball_entered(ball: Node2D) -> void:
