@@ -9,6 +9,11 @@ var melted_node: Node2D = null
 
 func _ready() -> void:
 	melted_node = melted_scene.instantiate()
+	if melted_node.has_node("VisibleOnScreenEnabler2D"):
+		## For some reason, we have to delete any of these that exist, 
+		## otherwise block collision gets completely fucked up, idk why, 
+		## probably a godot bug :thumbsup:
+		melted_node.get_node("VisibleOnScreenEnabler2D").free()
 	melted_node.global_position = Vector2(-512, 512)
 	add_sibling.call_deferred(melted_node)
 
@@ -20,11 +25,7 @@ func melt() -> void:
 	if melting: return
 	melting = true
 	melted_node.global_position = global_position
-	if melted_node.has_node("VisibleOnScreenEnabler2D"):
-		## For some reason, we have to delete any of these that exist, 
-		## otherwise block collision gets completely fucked up, idk why, 
-		## probably a godot bug :thumbsup:
-		melted_node.get_node("VisibleOnScreenEnabler2D").queue_free()
+	melted_node.reset_physics_interpolation()
 	summon_smoke()
 	queue_free()
 
